@@ -1,27 +1,29 @@
 import { Modal, Typography, Box, TextField, FormControl, Button } from '@mui/material/';
-import { useStore } from '@/pages/store';
 import { useForm, SubmitHandler } from 'react-hook-form';
+import { useStore } from '@/pages/store';
+import { modalStyles } from '@/helpers/helpers';
 import { productList } from 'types';
-
-const style = {
-    position: 'absolute' as 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 400,
-    bgcolor: 'background.paper',
-    boxShadow: 24,
-    p: 4,
-};
+import { useMutation } from 'react-query';
 
 export default function AddProductModal() {
+    const mutation = useMutation({
+        mutationFn: (formData: Object) => {
+            const requestOptions = {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(formData),
+            };
+            return fetch('/api/products/post', requestOptions);
+        },
+    });
+
     const { show, toggleShow } = useStore();
     const {
         register,
         handleSubmit,
         formState: { errors },
     } = useForm<productList>();
-    const onSubmit: SubmitHandler<productList> = (data) => console.log(data);
+    const onSubmit: SubmitHandler<productList> = (data) => mutation.mutate(data);
 
     return (
         <Modal
@@ -30,7 +32,7 @@ export default function AddProductModal() {
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
         >
-            <Box sx={style}>
+            <Box sx={modalStyles}>
                 <Typography textAlign="center" variant="h5">
                     Add product
                 </Typography>
@@ -69,6 +71,14 @@ export default function AddProductModal() {
                             {...register('price', { required: true })}
                         />
                         {errors.price && <Typography variant="caption">This field is required</Typography>}
+                        <TextField
+                            fullWidth
+                            id="standard-required"
+                            label="Added by"
+                            variant="standard"
+                            {...register('addedBy', { required: true })}
+                        />
+                        {errors.addedBy && <Typography variant="caption">This field is required</Typography>}
                     </Box>
                     <Box sx={{ mt: 2, display: 'flex', justifyContent: 'flex-end' }}>
                         <Button variant="contained" type="submit">

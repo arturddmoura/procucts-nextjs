@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Box, Typography, Card, CardActions, CardContent, CardMedia, Button } from '@mui/material/';
-import { currencyFormatter } from '@/helpers/currency';
+import { currencyFormatter } from '@/helpers/helpers';
 import { productList } from 'types';
 
 export default function CardComponent({ products }: any) {
@@ -36,7 +36,7 @@ export default function CardComponent({ products }: any) {
                         <CardActions>
                             <Button size="small">
                                 <a href={item.link} target="_blank" rel="noopener noreferrer">
-                                    IR ATÉ A LOJA
+                                    OPEN STORE LINK
                                 </a>
                             </Button>
                         </CardActions>
