@@ -4,7 +4,7 @@ import { useMutation, useQueryClient } from 'react-query';
 import { productList } from 'types';
 
 export default function DeleteDialog({ item }: { item: productList }) {
-    const { showDelete, toggleShowDelete } = useStore();
+    const { showDelete, toggleShowDelete, toggleSnackbarError, toggleSnackbar } = useStore();
     const queryClient = useQueryClient();
 
     const { mutate, isLoading, isSuccess, isError } = useMutation({
@@ -19,7 +19,9 @@ export default function DeleteDialog({ item }: { item: productList }) {
         onSuccess: async () => {
             queryClient.invalidateQueries('products');
             toggleShowDelete();
+            toggleSnackbar();
         },
+        onError: async () => toggleSnackbarError(),
     });
 
     return (

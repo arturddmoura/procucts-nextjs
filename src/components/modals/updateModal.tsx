@@ -6,84 +6,91 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { useMutation, useQueryClient } from 'react-query';
 import { productList } from 'types';
 
-export default function ProductModal() {
+export default function ProductUpdateModal({ item }: { item: productList }) {
     const queryClient = useQueryClient();
 
     const { mutate, isLoading, isSuccess, isError } = useMutation({
         mutationFn: (formData: productList) => {
             const requestOptions = {
-                method: 'POST',
+                method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(formData),
             };
-            return fetch('/api/products/post', requestOptions);
+            return fetch(`/api/products/update/${item.id}`, requestOptions);
         },
         onSuccess: async () => {
             queryClient.invalidateQueries('products');
-            toggleShow();
+            toggleShowUpdate();
+            toggleSnackbar();
         },
+        onError: async () => toggleSnackbarError(),
     });
 
-    const { show, toggleShow } = useStore();
+    const { showUpdate, toggleShowUpdate, toggleSnackbarError, toggleSnackbar } = useStore();
     const {
         reset,
         register,
         handleSubmit,
         formState: { errors },
-    } = useForm<productList>();
+    } = useForm<productList>({ defaultValues: item });
     const onSubmit: SubmitHandler<productList> = (data) => mutate(data);
 
     return (
         <Modal
-            open={show}
-            onClose={toggleShow}
+            open={showUpdate}
+            onClose={toggleShowUpdate}
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
         >
             <Box sx={modalStyles}>
                 <Typography textAlign="center" variant="h5">
-                    Add product
+                    Update product
                 </Typography>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <Box>
                         <TextField
+                            sx={{ mt: 3, mb: 1 }}
                             fullWidth
                             id="standard-required"
                             label="Product"
-                            variant="standard"
+                            variant="outlined"
                             {...register('product', { required: true })}
                         />
                         {errors.product && <Typography variant="caption">This field is required</Typography>}
                         <TextField
+                            sx={{ mb: 1 }}
                             fullWidth
                             id="standard-required"
                             label="Image"
-                            variant="standard"
+                            variant="outlined"
                             {...register('image', { required: true })}
                         />
                         {errors.image && <Typography variant="caption">This field is required</Typography>}
                         <TextField
+                            sx={{ mb: 1 }}
                             fullWidth
                             id="standard-required"
                             label="Link"
-                            variant="standard"
+                            variant="outlined"
                             {...register('link', { required: true })}
                         />
                         {errors.link && <Typography variant="caption">This field is required</Typography>}
                         <TextField
+                            sx={{ mb: 1 }}
                             fullWidth
                             id="standard-required"
                             label="Price"
                             type="amount"
-                            variant="standard"
+                            variant="outlined"
                             {...register('price', { required: true })}
                         />
                         {errors.price && <Typography variant="caption">This field is required</Typography>}
                         <TextField
+                            sx={{ mb: 3 }}
                             fullWidth
                             id="standard-required"
                             label="Added by"
-                            variant="standard"
+                            variant="outlined"
                             {...register('addedBy', { required: true })}
                         />
                         {errors.addedBy && <Typography variant="caption">This field is required</Typography>}

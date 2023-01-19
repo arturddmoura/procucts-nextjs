@@ -1,30 +1,36 @@
 import { useStore } from './store';
 import CardComponent from '@/components/card';
-import Loading from '@/components/loading';
-import ProductModal from '@/components/modal';
+import Loading from '@/components/loading/loading';
+import ProductModal from '@/components/modals/modal';
+import NavBar from '@/components/navbar/navBar';
 import NotFound from '@/components/pageNotFound';
+import SnackBar from '@/components/snackbars/snackBar';
+import SnackBarError from '@/components/snackbars/snackBarError';
 import { Box, Button } from '@mui/material/';
 import { useQuery } from 'react-query';
-import NavBar from 'src/components/navBar';
 
 export default function Home() {
-    const { show, toggleShow } = useStore();
+    const { snackbar, snackbarError, toggleShow } = useStore();
     const fetchProducts = async () => {
         const res = await fetch('/api/products');
         return res.json();
     };
-    const { isLoading, isError, data, error } = useQuery('products', fetchProducts);
+    const { isLoading, isError, data } = useQuery('products', fetchProducts);
 
     return (
         <>
             <Box>
                 <ProductModal />
                 <NavBar />
+                {snackbarError && <SnackBarError />}
+                {snackbar && <SnackBar />}
                 {isError ? <NotFound /> : null}
                 {isLoading ? <Loading /> : null}
-                <Button sx={{ m: 1 }} onClick={toggleShow} variant="contained">
-                    Add product
-                </Button>
+                <Box display="flex" justifyContent="flex-end" alignItems="flex-end">
+                    <Button sx={{ m: 1 }} onClick={toggleShow} variant="contained">
+                        Add product
+                    </Button>
+                </Box>
                 {data && <CardComponent products={data} />}
             </Box>
         </>

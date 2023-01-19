@@ -4,16 +4,24 @@ type AddModal = {
     show: boolean;
     showUpdate: boolean;
     showDelete: boolean;
+    snackbar: boolean;
+    snackbarError: boolean;
     toggleShow: () => void;
     toggleShowUpdate: () => void;
     toggleShowDelete: () => void;
+    toggleSnackbar: () => void;
+    toggleSnackbarError: () => void;
 };
 
 export const useStore = create<AddModal>((set) => ({
     show: false,
     showUpdate: false,
     showDelete: false,
+    snackbar: false,
+    snackbarError: false,
     toggleShow: () => set((state) => ({ show: !state.show })),
     toggleShowUpdate: () => set((state) => ({ showUpdate: !state.showUpdate })),
     toggleShowDelete: () => set((state) => ({ showDelete: !state.showDelete })),
+    toggleSnackbar: () => set((state) => ({ snackbar: !state.snackbar })),
+    toggleSnackbarError: () => set((state) => ({ snackbarError: !state.snackbarError })),
 }));

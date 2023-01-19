@@ -1,9 +1,9 @@
-import DeleteDialog from './deleteDialog';
-import ProductUpdateModal from './updateModal';
+import DeleteDialog from './modals/deleteDialog';
+import ProductUpdateModal from './modals/updateModal';
 import { currencyFormatter } from '@/helpers/helpers';
 import { useStore } from '@/pages/store';
 import { Delete, Edit } from '@mui/icons-material';
-import { Box, Typography, Card, CardActions, CardContent, CardMedia, Button, IconButton } from '@mui/material/';
+import { Box, Typography, Card, CardActions, CardContent, CardMedia, Button, IconButton, Stack } from '@mui/material/';
 import { useState } from 'react';
 import { productList } from 'types';
 
@@ -43,31 +43,42 @@ export default function CardComponent({ products }: { products: Array<productLis
                                 {currencyFormatter.format(Number(item.price))}
                             </Typography>
                         </CardContent>
-                        <CardActions>
-                            <Button size="small">
-                                <a href={item.link} target="_blank" rel="noopener noreferrer">
-                                    OPEN STORE LINK
-                                </a>
-                            </Button>
-                            <IconButton
-                                onClick={() => {
-                                    toggleShowUpdate();
-                                    setItemList(item);
-                                }}
-                                size="small"
-                            >
-                                <Edit fontSize="inherit" />
-                            </IconButton>
-                            <IconButton
-                                onClick={() => {
-                                    toggleShowDelete();
-                                    setItemList(item);
-                                }}
-                                size="small"
-                            >
-                                <Delete fontSize="inherit" />
-                            </IconButton>
-                        </CardActions>
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                justifyContent: 'space-between',
+                                p: 1,
+                                m: 1,
+                            }}
+                        >
+                            <Box>
+                                <Button size="small">
+                                    <a href={item.link} target="_blank" rel="noopener noreferrer">
+                                        OPEN STORE LINK
+                                    </a>
+                                </Button>
+                            </Box>
+                            <Box>
+                                <IconButton
+                                    onClick={() => {
+                                        toggleShowUpdate();
+                                        setItemList(item);
+                                    }}
+                                    size="small"
+                                >
+                                    <Edit fontSize="inherit" />
+                                </IconButton>
+                                <IconButton
+                                    onClick={() => {
+                                        toggleShowDelete();
+                                        setItemList(item);
+                                    }}
+                                    size="small"
+                                >
+                                    <Delete fontSize="inherit" />
+                                </IconButton>
+                            </Box>
+                        </Box>
                     </Card>
                 );
             })}
