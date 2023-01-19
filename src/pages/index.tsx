@@ -1,12 +1,11 @@
-import { useState } from 'react';
-
-import NavBar from 'src/components/navBar';
-import CardComponent from '@/components/card';
-import { useQuery } from 'react-query';
-import { Box, Button, Modal, Typography } from '@mui/material/';
-
 import { useStore } from './store';
-import AddProductModal from '@/components/modal';
+import CardComponent from '@/components/card';
+import Loading from '@/components/loading';
+import ProductModal from '@/components/modal';
+import NotFound from '@/components/pageNotFound';
+import { Box, Button } from '@mui/material/';
+import { useQuery } from 'react-query';
+import NavBar from 'src/components/navBar';
 
 export default function Home() {
     const { show, toggleShow } = useStore();
@@ -18,12 +17,16 @@ export default function Home() {
 
     return (
         <>
-            <NavBar />
-            <Button onClick={toggleShow} variant="contained">
-                teste
-            </Button>
-            <AddProductModal />
-            <Box>{data && <CardComponent products={data} />}</Box>
+            <Box>
+                <ProductModal />
+                <NavBar />
+                {isError ? <NotFound /> : null}
+                {isLoading ? <Loading /> : null}
+                <Button sx={{ m: 1 }} onClick={toggleShow} variant="contained">
+                    Add product
+                </Button>
+                {data && <CardComponent products={data} />}
+            </Box>
         </>
     );
 }

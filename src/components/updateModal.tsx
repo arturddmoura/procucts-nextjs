@@ -6,43 +6,43 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { useMutation, useQueryClient } from 'react-query';
 import { productList } from 'types';
 
-export default function ProductModal() {
+export default function ProductUpdateModal({ item }: { item: productList }) {
     const queryClient = useQueryClient();
 
     const { mutate, isLoading, isSuccess, isError } = useMutation({
         mutationFn: (formData: productList) => {
             const requestOptions = {
-                method: 'POST',
+                method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(formData),
             };
-            return fetch('/api/products/post', requestOptions);
+            return fetch(`/api/products/update/${item.id}`, requestOptions);
         },
         onSuccess: async () => {
             queryClient.invalidateQueries('products');
-            toggleShow();
+            toggleShowUpdate();
         },
     });
 
-    const { show, toggleShow } = useStore();
+    const { showUpdate, toggleShowUpdate } = useStore();
     const {
         reset,
         register,
         handleSubmit,
         formState: { errors },
-    } = useForm<productList>();
+    } = useForm<productList>({ defaultValues: item });
     const onSubmit: SubmitHandler<productList> = (data) => mutate(data);
 
     return (
         <Modal
-            open={show}
-            onClose={toggleShow}
+            open={showUpdate}
+            onClose={toggleShowUpdate}
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
         >
             <Box sx={modalStyles}>
                 <Typography textAlign="center" variant="h5">
-                    Add product
+                    Update product
                 </Typography>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <Box>
