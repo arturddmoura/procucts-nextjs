@@ -2,7 +2,6 @@ import { useStore } from './store';
 import CardComponent from '@/components/card';
 import Loading from '@/components/loading/loading';
 import ProductModal from '@/components/modals/modal';
-import NavBar from '@/components/navbar/navBar';
 import NotFound from '@/components/pageNotFound';
 import SnackBar from '@/components/snackbars/snackBar';
 import SnackBarError from '@/components/snackbars/snackBarError';
@@ -21,7 +20,6 @@ export default function Home() {
         <>
             <Box>
                 <ProductModal />
-                <NavBar />
                 {snackbarError && <SnackBarError />}
                 {snackbar && <SnackBar />}
                 {isError ? <NotFound /> : null}

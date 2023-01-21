@@ -1,6 +1,5 @@
 import Loading from '@/components/loading/loading';
 import ProductModal from '@/components/modals/modal';
-import NavBar from '@/components/navbar/navBar';
 import NotFound from '@/components/pageNotFound';
 import { Box, Button } from '@mui/material/';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
@@ -36,7 +35,6 @@ export default function DataGridExample() {
         <>
             <Box>
                 <ProductModal />
-                <NavBar />
                 {isError ? <NotFound /> : null}
                 {isLoading ? <Loading /> : null}
                 {data && (
