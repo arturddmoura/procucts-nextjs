@@ -80,8 +80,11 @@ export default function ProductModal() {
                             fullWidth
                             id="standard-required"
                             label="Price"
-                            type="amount"
+                            type="number"
                             variant="outlined"
+                            inputProps={{
+                                step: 'any',
+                            }}
                             {...register('price', { required: true })}
                         />
                         {errors.price && <Typography variant="caption">This field is required</Typography>}
