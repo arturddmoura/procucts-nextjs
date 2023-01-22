@@ -34,7 +34,7 @@ export default function DeleteDialog({ item }: { item: productList }) {
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    <Button variant="contained" color="secondary" onClick={toggleShowDelete}>
+                    <Button variant="contained" color="primary" onClick={toggleShowDelete}>
                         Cancel
                     </Button>
                     <Button variant="contained" color="error" onClick={() => mutate(item)} autoFocus>

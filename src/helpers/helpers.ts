@@ -5,6 +5,7 @@ export const currencyFormatter = new Intl.NumberFormat('en-US', {
 
 export const modalStyles = {
     position: 'absolute' as 'absolute',
+    borderRadius: '5px',
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',

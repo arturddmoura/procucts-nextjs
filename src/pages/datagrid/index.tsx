@@ -4,10 +4,17 @@ import DeleteDialog from '@/components/modals/deleteDialog';
 import ProductModal from '@/components/modals/modal';
 import ProductUpdateModal from '@/components/modals/updateModal';
 import NotFound from '@/components/pageNotFound';
+import { currencyFormatter } from '@/helpers/helpers';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { Box, Button } from '@mui/material/';
-import { DataGrid, GridActionsCellItem, GridEnrichedColDef, GridRowParams } from '@mui/x-data-grid';
+import {
+    DataGrid,
+    GridActionsCellItem,
+    GridEnrichedColDef,
+    GridRowParams,
+    GridValueGetterParams,
+} from '@mui/x-data-grid';
 import { useState } from 'react';
 import { useQuery } from 'react-query';
 import { productList } from 'types';
@@ -24,11 +31,20 @@ export default function DataGridExample() {
             field: 'price',
             headerName: 'Price',
             flex: 1,
+            valueGetter: (params: GridValueGetterParams) => {
+                return `${currencyFormatter.format(Number(params.value))}`;
+            },
         },
         {
             field: 'addedBy',
             headerName: 'Added by',
             flex: 1,
+        },
+        {
+            field: 'dateAdded',
+            headerName: 'Date added',
+            flex: 1,
+            valueFormatter: (params) => new Date(params?.value).toLocaleString(),
         },
         {
             field: 'actions',

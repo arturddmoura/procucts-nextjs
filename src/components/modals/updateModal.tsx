@@ -99,7 +99,7 @@ export default function ProductUpdateModal({ item }: { item: productList }) {
                         {errors.addedBy && <Typography variant="caption">This field is required</Typography>}
                     </Box>
                     <Box sx={{ mt: 2, display: 'flex', justifyContent: 'space-between' }}>
-                        <Button color="secondary" variant="contained" onClick={() => reset()}>
+                        <Button variant="contained" onClick={() => reset()}>
                             RESET
                         </Button>
                         <LoadingButton loading={isLoading} variant="contained" type="submit">
