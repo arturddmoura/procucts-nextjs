@@ -52,10 +52,14 @@ export default function CardComponent({ products }: { products: Array<productLis
                             }}
                         >
                             <Box>
-                                <Button size="small">
-                                    <a href={item.link} target="_blank" rel="noopener noreferrer">
-                                        OPEN STORE LINK
-                                    </a>
+                                <Button
+                                    size="small"
+                                    component="a"
+                                    href={item.link}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    OPEN STORE LINK
                                 </Button>
                             </Box>
                             <Box>
